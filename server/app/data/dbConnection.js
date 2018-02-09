@@ -3,6 +3,7 @@ var SQL = require('mysql');
 
 function createDBConnection(){
 
+  /**
   if ( prcess.env.NODE_ENV === 'test' ) {
     return SQL.createConnection({
       host: 'localhost',
@@ -11,6 +12,7 @@ function createDBConnection(){
       database: 'tasks_test'
     });
   }
+  */
 
   return SQL.createConnection({
     host: 'localhost',

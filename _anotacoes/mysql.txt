@@ -1,0 +1,72 @@
+create database tasks;
+
+use tasks;
+
+create table users (
+  id int unsigned auto_increment primary key,
+  login varchar(255) not null,
+  password varchar(255) not null,
+  name varchar(255) not null,
+  email varchar(255) not null,
+  active tinyint(1) not null default 1
+);
+
+insert into users (login, password, name, email) values ('front1', 'front1', 'Front-end 1', 'front1@teste.com');
+insert into users (login, password, name, email) values ('front2', 'front2', 'Front-end 2', 'front2@teste.com');
+insert into users (login, password, name, email) values ('back1', 'back1', 'Back-end 1', 'back1@teste.com');
+insert into users (login, password, name, email) values ('back2', 'back2', 'Back-end 2', 'back2@teste.com');
+insert into users (login, password, name, email) values ('design1', 'design1', 'Designer 1', 'design1@teste.com');
+insert into users (login, password, name, email) values ('design2', 'design2', 'Designer 2', 'design2@teste.com');
+
+create table clients (
+  id int unsigned auto_increment primary key,
+  name varchar(255) not null,
+  status varchar(255) not null default "Verde",
+  active tinyint(1) not null default 1
+);
+
+insert into clients (name) values ('Cliente 1');
+insert into clients (name) values ('Cliente 2');
+insert into clients (name) values ('Cliente 3');
+
+create table projects (
+  id int unsigned auto_increment primary key,
+  name varchar(255) not null,
+  client int unsigned not null,
+  foreign key (client) references clients(id),
+  status varchar(255) not null default "Novo",
+  dataInicio varchar(20) not null,
+  dataFim varchar(20),
+  descricao text
+);
+
+insert into projects (name, client, dataInicio) values ('Project 1', 1, '1518196298184');
+insert into projects (name, client, dataInicio) values ('Project 2', 3, '1520359991081');
+
+create table tasks (
+  id int unsigned auto_increment primary key,
+  task varchar(255) not null,
+  client int unsigned not null,
+  foreign key (client) references clients(id),
+  user int unsigned not null,
+  foreign key (user) references users(id),
+  project int unsigned,
+  foreign key (project) references projects(id),
+  status varchar(20) not null default "Novo",
+  dataInicio varchar(20) not null,
+  dataFim varchar(20) not null,
+  descricao text
+);
+
+insert into tasks (task, client, user, project, dataInicio) values ("Estruturar HTML", 1, 1, 1, "1518199291191");
+insert into tasks (task, client, user, project, dataInicio) values ("Validação dos formulários", 1, 2, 1, "1518199388293");
+insert into tasks (task, client, user, project, dataInicio) values ("Programação do Banco", 1, 4, 1, "1518199429530");
+insert into tasks (task, client, user, project, dataInicio) values ("Layout Responsivo", 1, 5, 1, "1518199429530");
+
+insert into tasks (task, client, user, project, dataInicio) values ("Estruturar HTML", 2, 1, 2, "1518201200422");
+insert into tasks (task, client, user, project, dataInicio) values ("Estruturar Mail MKT", 2, 1, 2, "1518201200422");
+insert into tasks (task, client, user, project, dataInicio) values ("Validação dos formulários", 2, 2, 2, "1518201200422");
+insert into tasks (task, client, user, project, dataInicio) values ("Programação do Banco", 2, 3, 2, "1518201200422");
+insert into tasks (task, client, user, project, dataInicio) values ("Layout Mail MKT", 2, 5, 2, "1518201200422");
+
+insert into tasks (task, client, user, project, dataInicio) values ("Revisar Padrão SASS", 3, 2, null, "1518201392812");
