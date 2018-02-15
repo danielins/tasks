@@ -5,26 +5,22 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     expressValidator = require('express-validator');
 
-module.exports = () => {
+var app = express();
 
-  var app = express();
+app.set('clientPath', path.join(__dirname, '../..', 'client'));
 
-  app.set('clientPath', path.join(__dirname, '../..', 'client'));
+app.use( express.static(app.get('clientPath')) );
 
-  app.use( express.static(app.get('clientPath')) );
+app.use( bodyParser.json() );
 
-  app.use(bodyParser.json());
+app.use(expressValidator());
 
-  app.use(expressValidator());
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
-  app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Acesss-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
+routes(app);
 
-  routes(app);
-
-  return app;
-
-};
+module.exports = app;

@@ -1,15 +1,21 @@
-function TasksBase(connection){
-  this._connection = connection;
+class TasksBase {
+
+	constructor(connection){
+		this._connection = connection;
+	}
+
+	allTasks(callback){
+		this._connection.query('select * from tasks', callback);
+	}
+
+	getTask(taskId, callback){
+		this._connection.query(`select * from tasks where id = ${taskId}`, callback);
+	}
+
+	save(newTask, callback){
+		this._connection.query('insert into tasks set ?', newTask, callback);
+	}
+
 }
 
-TasksBase.prototype.show = callback => {
-  this._connection.query('select * from tasks', callback);
-}
-
-TasksBase.prototype.save = (newTask, callback) => {
-  this._connection.query('insert into tasks set ?', newTask, callback);
-}
-
-module.exports = function(){
-  return TasksBase;
-}
+module.exports = TasksBase;
