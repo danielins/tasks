@@ -1,5 +1,5 @@
 var app  = require('./config/express');
 
-app.listen(3000, () => {
-  console.log(`Servidor escutando na porta 3000`);
+app.listen(5000, () => {
+  console.log(`Servidor escutando na porta 5000`);
 });
