@@ -1,6 +1,12 @@
-import { CLICK_UPDATE_VALUE } from './actionTypes';
+import * as Types from './actionTypes';
+import * as API from '../utils/API';
 
-export const clickButton = value => ({
-	type: CLICK_UPDATE_VALUE,
-	newValue: value
+export const addTasks = tasks => ({
+	type: Types.ADD_TASKS,
+	tasks
 });
+
+export function fetchTasks(dispatch){
+	API.getTasks()
+	.then((tasks) => dispatch( addTasks(tasks) ));
+}

@@ -1,6 +1,6 @@
-import { clickReducer } from './clickReducer';
+import { tasks } from './tasks';
 import { combineReducers } from 'redux';
 
 export const Reducers = combineReducers({
-	clickConfig: clickReducer
+	tasks
 });

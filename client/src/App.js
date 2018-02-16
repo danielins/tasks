@@ -1,44 +1,75 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { clickButton } from './actions';
-import './App.css';
+
+import { fetchTasks } from './actions';
 
 class App extends Component {
 
-  state = {
-    inputValue: ''
+  constructor(props){
+
+    super(props);
+
+    this.state = {
+      orderBy: 'dataFinal',
+      tasks: []
+    }
+
   }
 
-  inputChange = event => {
-    this.setState({
-      inputValue: event.target.value
-    });
-  }
+  componentDidMount() { this.props.fetchTasks(); }
+
+  componentWillReceiveProps(newProps){ this.setState({ tasks: newProps.tasks }); }
 
   render() {
 
-    const { clickButton, newValue } = this.props;
+    const { tasks } = this.state;
 
     return (
-      <div className="App" style={{ paddingTop: '10px' }}>
-        <input type='text' onChange={this.inputChange} value={ this.state.inputValue } />
-        <button onClick={ () => clickButton(this.state.inputValue) }>
-          Click me
-        </button>
-        <h1>
-          { newValue }
-        </h1>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>
+                Tarefa
+              </th>
+              <th>
+                Cliente
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            { tasks.length
+              ?
+                tasks.map(task => 
+                  <tr key={ task.id }>
+                    <td>{ task.task }</td>
+                    <td>{ task.client }</td>
+                  </tr>
+                )
+              : 
+              <tr>
+                <td colSpan="2">No active tasks.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
       </div>
     );
+ 
+  } // render()
+
+}
+
+function mapStateToProps({tasks}){
+  return {
+    tasks
   }
 }
 
-const mapStateToProps = store => ({
-  newValue: store.clickConfig.newValue
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ clickButton }, dispatch);
+function mapDispatchToProps(dispatch){
+  return {
+    fetchTasks: () => fetchTasks(dispatch)
+  }
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
