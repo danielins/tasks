@@ -4,10 +4,25 @@ const initialTasks = [];
 
 export const tasks = (state = initialTasks, action) => {
 
-	switch(action.type) {
+	const {
+		type,
+		tasks
+	} = action;
+
+	switch ( type ) {
 
 		case Types.ADD_TASKS:
-			return state.concat( action.tasks );
+
+			let newTaskState = state.slice();
+
+			tasks.forEach(task => {
+				const exists = state.find(foundTask => foundTask.id === task.id) ? true : false;
+				if ( !exists && !task.deleted ){
+					newTaskState.push(task);
+				}
+			});
+
+			return newTaskState;
 
 		default:
 			return state;

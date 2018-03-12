@@ -5,7 +5,18 @@ class TasksBase {
 	}
 
 	allTasks(callback){
-		this._connection.query('select * from tasks', callback);
+		this._connection.query(`
+			select
+				t.*,
+				c.name as clientName,
+				p.name as projectName
+			from
+				tasks t
+			inner join
+				clients c on t.client = c.id
+			left join
+				projects p on t.project = p.id
+			`, callback);
 	}
 
 	getTask(taskId, callback){
