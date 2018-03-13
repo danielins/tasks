@@ -9,11 +9,14 @@ class TasksBase {
 			select
 				t.*,
 				c.name as clientName,
-				p.name as projectName
+				p.name as projectName,
+				u.name as userName
 			from
 				tasks t
 			inner join
 				clients c on t.client = c.id
+			inner join
+				users u on t.user = u.id
 			left join
 				projects p on t.project = p.id
 			`, callback);
